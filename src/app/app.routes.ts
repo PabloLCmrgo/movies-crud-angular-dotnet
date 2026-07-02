@@ -1,10 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { MovieListComponent } from './components/movies/movie-list/movie-list.component';
-import { MovieFormComponent } from './components/movies/movie-form/movie-form.component';
-
-import { DirectorListComponent } from './components/directors/director-list/director-list.component';
-import { DirectorFormComponent } from './components/directors/director-form/director-form.component';
 
 export const routes: Routes = [
   {
@@ -13,36 +8,53 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 
+  // Movies
   {
     path: 'movies',
-    component: MovieListComponent,
+    loadComponent: () =>
+      import('./components/movies/movie-list/movie-list.component').then(
+        (c) => c.MovieListComponent,
+      ),
   },
-
   {
     path: 'movies/new',
-    component: MovieFormComponent,
+    loadComponent: () =>
+      import('./components/movies/movie-form/movie-form.component').then(
+        (c) => c.MovieFormComponent,
+      ),
   },
-
   {
     path: 'movies/edit/:id',
-    component: MovieFormComponent,
+    loadComponent: () =>
+      import('./components/movies/movie-form/movie-form.component').then(
+        (c) => c.MovieFormComponent,
+      ),
   },
 
+  // Directors
   {
     path: 'directors',
-    component: DirectorListComponent,
+    loadComponent: () =>
+      import('./components/directors/director-list/director-list.component').then(
+        (c) => c.DirectorListComponent,
+      ),
   },
-
   {
     path: 'directors/new',
-    component: DirectorFormComponent,
+    loadComponent: () =>
+      import('./components/directors/director-form/director-form.component').then(
+        (c) => c.DirectorFormComponent,
+      ),
   },
-
   {
     path: 'directors/edit/:id',
-    component: DirectorFormComponent,
+    loadComponent: () =>
+      import('./components/directors/director-form/director-form.component').then(
+        (c) => c.DirectorFormComponent,
+      ),
   },
 
+  // 404
   {
     path: '**',
     redirectTo: 'movies',
