@@ -1,1 +1,45 @@
-<p>director-form works!</p>
+<h2>{{ isEdit() ? 'Editar' : 'Nuevo' }} Director</h2>
+
+@if (error()) {
+  <p class="form-error" role="alert">{{ error() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-field">
+    <label for="name">Nombre</label>
+    <input id="name" type="text" formControlName="name" />
+    @if (form.controls.name.invalid && form.controls.name.touched) {
+      <small class="field-error">El nombre es obligatorio (mínimo 2 caracteres).</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="nationality">Nacionalidad</label>
+    <input id="nationality" type="text" formControlName="nationality" />
+    @if (form.controls.nationality.invalid && form.controls.nationality.touched) {
+      <small class="field-error">La nacionalidad es obligatoria.</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="age">Edad</label>
+    <input id="age" type="number" formControlName="age" />
+    @if (form.controls.age.invalid && form.controls.age.touched) {
+      <small class="field-error">La edad debe estar entre 0 y 130.</small>
+    }
+  </div>
+
+  <div class="form-field form-field-checkbox">
+    <label for="active">
+      <input id="active" type="checkbox" formControlName="active" />
+      Activo
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary" [disabled]="saving()">
+      {{ saving() ? 'Guardando…' : 'Guardar' }}
+    </button>
+    <button type="button" (click)="cancel()" [disabled]="saving()">Cancelar</button>
+  </div>
+</form>

@@ -1,1 +1,42 @@
-<p>movie-list works!</p>
+<h2>Películas</h2>
+<button class="btn-primary" routerLink="/movies/new">+ Nueva Película</button>
+
+@if (error()) {
+  <p class="form-error" role="alert">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p>Cargando…</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Año</th>
+        <th>Género</th>
+        <th>Duración</th>
+        <th>Director</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (m of movies(); track m.id) {
+        <tr>
+          <td>{{ m.id }}</td>
+          <td>{{ m.name }}</td>
+          <td>{{ m.releaseYear | date:'yyyy-MM-dd' }}</td>
+          <td>{{ m.genre }}</td>
+          <td>{{ m.duration }}</td>
+          <td>{{ m.directorName }}</td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/movies/edit', m.id]" [attr.aria-label]="'Editar ' + m.name">Editar</button>
+            <button class="btn-danger" (click)="remove(m.id)" [attr.aria-label]="'Eliminar ' + m.name">Eliminar</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="7">No hay películas registradas.</td></tr>
+      }
+    </tbody>
+  </table>
+}

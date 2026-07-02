@@ -1,1 +1,40 @@
-<p>director-list works!</p>
+<h2>Directores</h2>
+<button class="btn-primary" routerLink="/directors/new">+ Nuevo Director</button>
+
+@if (error()) {
+  <p class="form-error" role="alert">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p>Cargando…</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Nacionalidad</th>
+        <th>Edad</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (d of directors(); track d.id) {
+        <tr>
+          <td>{{ d.id }}</td>
+          <td>{{ d.name }}</td>
+          <td>{{ d.nationality }}</td>
+          <td>{{ d.age ?? '—' }}</td>
+          <td>{{ d.active ? 'Sí' : 'No' }}</td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/directors/edit', d.id]" [attr.aria-label]="'Editar a ' + d.name">Editar</button>
+            <button class="btn-danger" (click)="remove(d.id)" [attr.aria-label]="'Eliminar a ' + d.name">Eliminar</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6">No hay directores registrados.</td></tr>
+      }
+    </tbody>
+  </table>
+}

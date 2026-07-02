@@ -1,1 +1,59 @@
-<p>movie-form works!</p>
+<h2>{{ isEdit() ? 'Editar' : 'Nueva' }} Película</h2>
+
+@if (error()) {
+  <p class="form-error" role="alert">{{ error() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-field">
+    <label for="name">Nombre</label>
+    <input id="name" type="text" formControlName="name" />
+    @if (form.controls.name.invalid && form.controls.name.touched) {
+      <small class="field-error">El nombre es obligatorio (mínimo 2 caracteres).</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="releaseYear">Año de estreno</label>
+    <input id="releaseYear" type="date" formControlName="releaseYear" />
+    @if (form.controls.releaseYear.invalid && form.controls.releaseYear.touched) {
+      <small class="field-error">La fecha de estreno es obligatoria.</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="genre">Género</label>
+    <input id="genre" type="text" formControlName="genre" />
+    @if (form.controls.genre.invalid && form.controls.genre.touched) {
+      <small class="field-error">El género es obligatorio.</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="duration">Duración (HH:mm:ss)</label>
+    <input id="duration" type="text" formControlName="duration" placeholder="02:15:00" />
+    @if (form.controls.duration.invalid && form.controls.duration.touched) {
+      <small class="field-error">Formato esperado: HH:mm:ss (ej. 02:15:00).</small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="directorId">Director</label>
+    <select id="directorId" formControlName="directorId">
+      <option [ngValue]="null" disabled>Seleccione un director</option>
+      @for (d of directors(); track d.id) {
+        <option [ngValue]="d.id">{{ d.name }}</option>
+      }
+    </select>
+    @if (form.controls.directorId.invalid && form.controls.directorId.touched) {
+      <small class="field-error">Debe seleccionar un director.</small>
+    }
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary" [disabled]="saving()">
+      {{ saving() ? 'Guardando…' : 'Guardar' }}
+    </button>
+    <button type="button" (click)="cancel()" [disabled]="saving()">Cancelar</button>
+  </div>
+</form>
