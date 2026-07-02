@@ -1,45 +1,61 @@
-<h2>{{ isEdit() ? 'Editar' : 'Nuevo' }} Director</h2>
+<div class="container py-4 form-container">
+  <h2 class="mb-4">{{ isEdit() ? 'Editar' : 'Nuevo' }} Director</h2>
 
-@if (error()) {
-  <p class="form-error" role="alert">{{ error() }}</p>
-}
+  @if (error()) {
+    <div class="alert alert-danger" role="alert">{{ error() }}</div>
+  }
 
-<form [formGroup]="form" (ngSubmit)="save()">
-  <div class="form-field">
-    <label for="name">Nombre</label>
-    <input id="name" type="text" formControlName="name" />
-    @if (form.controls.name.invalid && form.controls.name.touched) {
-      <small class="field-error">El nombre es obligatorio (mínimo 2 caracteres).</small>
-    }
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            formControlName="name"
+            [class.is-invalid]="form.controls.name.invalid && form.controls.name.touched" />
+          <div class="invalid-feedback">El nombre es obligatorio (mínimo 2 caracteres).</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="nationality" class="form-label">Nacionalidad</label>
+          <input
+            id="nationality"
+            type="text"
+            class="form-control"
+            formControlName="nationality"
+            [class.is-invalid]="form.controls.nationality.invalid && form.controls.nationality.touched" />
+          <div class="invalid-feedback">La nacionalidad es obligatoria.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="age" class="form-label">Edad</label>
+          <input
+            id="age"
+            type="number"
+            class="form-control"
+            formControlName="age"
+            [class.is-invalid]="form.controls.age.invalid && form.controls.age.touched" />
+          <div class="invalid-feedback">La edad debe estar entre 0 y 130.</div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input id="active" type="checkbox" class="form-check-input" formControlName="active" />
+          <label for="active" class="form-check-label">Activo</label>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn btn-primary" [disabled]="saving()">
+            @if (saving()) {
+              <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            }
+            {{ saving() ? 'Guardando…' : 'Guardar' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="saving()">Cancelar</button>
+        </div>
+      </form>
+    </div>
   </div>
-
-  <div class="form-field">
-    <label for="nationality">Nacionalidad</label>
-    <input id="nationality" type="text" formControlName="nationality" />
-    @if (form.controls.nationality.invalid && form.controls.nationality.touched) {
-      <small class="field-error">La nacionalidad es obligatoria.</small>
-    }
-  </div>
-
-  <div class="form-field">
-    <label for="age">Edad</label>
-    <input id="age" type="number" formControlName="age" />
-    @if (form.controls.age.invalid && form.controls.age.touched) {
-      <small class="field-error">La edad debe estar entre 0 y 130.</small>
-    }
-  </div>
-
-  <div class="form-field form-field-checkbox">
-    <label for="active">
-      <input id="active" type="checkbox" formControlName="active" />
-      Activo
-    </label>
-  </div>
-
-  <div class="form-actions">
-    <button type="submit" class="btn-primary" [disabled]="saving()">
-      {{ saving() ? 'Guardando…' : 'Guardar' }}
-    </button>
-    <button type="button" (click)="cancel()" [disabled]="saving()">Cancelar</button>
-  </div>
-</form>
+</div>

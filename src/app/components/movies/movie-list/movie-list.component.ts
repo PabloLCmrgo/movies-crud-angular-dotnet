@@ -9,6 +9,7 @@ import { MovieService } from '../../../services/movie.service';
   standalone: true,
   imports: [DatePipe, RouterLink],
   templateUrl: './movie-list.component.html',
+  styleUrl: './movie-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieListComponent implements OnInit {

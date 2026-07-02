@@ -8,6 +8,7 @@ import { DirectorService } from '../../../services/director.service';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './director-list.component.html',
+  styleUrl: './director-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DirectorListComponent implements OnInit {
